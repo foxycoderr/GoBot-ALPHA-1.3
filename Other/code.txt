@@ -1,0 +1,500 @@
+This is a file for storing spare pieces of code
+
+
+
+
+
+
+
+
+
+
+
+# Hosting 
+
+from flask import Flask
+app = Flask('app')
+
+@app.route('/')
+def server_host():
+  return 'Bot online...'
+
+app.run(host='0.0.0.0', port=8080)
+
+
+# Translations
+print()Translator().translate("Hello World!!", "en", "ja")
+
+# Prefixes
+def get_prefix(client, message):
+  with open('prefixes.json', 'r') as f:
+    prefixes = json.load(f)
+
+  return prefixes[str(message.guild.id)]
+
+client = commands.Bot(command_prefix = get_prefix)
+
+
+@client.event
+async def on_guild_join(guild):
+  with open('prefixes.json', 'r') as f:
+    prefixes = json.load(f)
+
+    prefixes[str(guild.id)] = '?'
+
+  with open('prefixes.json', 'w') as f:
+    json.dump(prefixes, f, indent=4)
+
+@client.event
+async def on_guild_remove(guild): 
+    with open('prefixes.json', 'r') as f:
+      prefixes = json.load(f)
+
+      prefixes.pop(str(guild.id))
+
+    with open('prefixes.json', 'w') as f:
+      json.dump(prefixes, f, indent=4)
+
+
+@client.command()
+async def set_prefix(ctx, prefix):
+  with open('prefixes.json', 'r') as f:
+    prefixes = json.load(f)
+
+    prefixes[str(ctx.guild.id)] = prefix
+
+  with open('prefixes.json', 'w') as f:
+    json.dump(prefixes, f, indent=4)
+
+
+
+
+
+#translator langs
+    'af': 'afrikaans',
+    'sq': 'albanian',
+    'am': 'amharic',
+    'ar': 'arabic',
+    'hy': 'armenian',
+    'az': 'azerbaijani',
+    'eu': 'basque',
+    'be': 'belarusian',
+    'bn': 'bengali',
+    'bs': 'bosnian',
+    'bg': 'bulgarian',
+    'ca': 'catalan',
+    'ceb': 'cebuano',
+    'ny': 'chichewa',
+    'zh-cn': 'chinese (simplified)',
+    'zh-tw': 'chinese (traditional)',
+    'co': 'corsican',
+    'hr': 'croatian',
+    'cs': 'czech',
+    'da': 'danish',
+    'nl': 'dutch',
+    'en': 'english',
+    'eo': 'esperanto',
+    'et': 'estonian',
+    'tl': 'filipino',
+    'fi': 'finnish',
+    'fr': 'french',
+    'fy': 'frisian',
+    'gl': 'galician',
+    'ka': 'georgian',
+    'de': 'german',
+    'el': 'greek',
+    'gu': 'gujarati',
+    'ht': 'haitian creole',
+    'ha': 'hausa',
+    'haw': 'hawaiian',
+    'iw': 'hebrew',
+    'he': 'hebrew',
+    'hi': 'hindi',
+    'hmn': 'hmong',
+    'hu': 'hungarian',
+    'is': 'icelandic',
+    'ig': 'igbo',
+    'id': 'indonesian',
+    'ga': 'irish',
+    'it': 'italian',
+    'ja': 'japanese',
+    'jw': 'javanese',
+    'kn': 'kannada',
+    'kk': 'kazakh',
+    'km': 'khmer',
+    'ko': 'korean',
+    'ku': 'kurdish (kurmanji)',
+    'ky': 'kyrgyz',
+    'lo': 'lao',
+    'la': 'latin',
+    'lv': 'latvian',
+    'lt': 'lithuanian',
+    'lb': 'luxembourgish',
+    'mk': 'macedonian',
+    'mg': 'malagasy',
+    'ms': 'malay',
+    'ml': 'malayalam',
+    'mt': 'maltese',
+    'mi': 'maori',
+    'mr': 'marathi',
+    'mn': 'mongolian',
+    'my': 'myanmar (burmese)',
+    'ne': 'nepali',
+    'no': 'norwegian',
+    'or': 'odia',
+    'ps': 'pashto',
+    'fa': 'persian',
+    'pl': 'polish',
+    'pt': 'portuguese',
+    'pa': 'punjabi',
+    'ro': 'romanian',
+    'ru': 'russian',
+    'sm': 'samoan',
+    'gd': 'scots gaelic',
+    'sr': 'serbian',
+    'st': 'sesotho',
+    'sn': 'shona',
+    'sd': 'sindhi',
+    'si': 'sinhala',
+    'sk': 'slovak',
+    'sl': 'slovenian',
+    'so': 'somali',
+    'es': 'spanish',
+    'su': 'sundanese',
+    'sw': 'swahili',
+    'sv': 'swedish',
+    'tg': 'tajik',
+    'ta': 'tamil',
+    'te': 'telugu',
+    'th': 'thai',
+    'tr': 'turkish',
+    'uk': 'ukrainian',
+    'ur': 'urdu',
+    'ug': 'uyghur',
+    'uz': 'uzbek',
+    'vi': 'vietnamese',
+    'cy': 'welsh',
+    'xh': 'xhosa',
+    'yi': 'yiddish',
+    'yo': 'yoruba',
+    'zu': 'zulu',
+
+
+
+
+
+
+@client.command()
+async def memes(ctx):
+    my_secret1 = os.environ['passer']
+    reddit = praw.Reddit(client_id = "elpyXbtX30RC-UZu1GMnig", client_secret = "f4mFRXWcY10jUhIrjOkFXdV4xNPAvA", username = "foxycoder4580", password = my_secret1, user_agent = "otlolit")
+
+    subreddit = reddit.subreddit("SpongebobMemes")
+    all_subs = []
+    top = subreddit.top(limit = 30)
+    for submission in top:
+        all_subs.append(submission)
+
+    random_sub = random.choice(all_subs)
+
+    name = random_sub.title
+    url = random_sub.url
+
+    help = discord.Embed(title=name, color=0xFF0020, timestamp = ctx.message.created_at)
+    help.set_image(url = url)
+    help.set_thumbnail(url = "https://i.ibb.co/SJjG2Mn/New-Project-15.png")
+
+    await ctx.message.channel.send(embed=help)
+
+
+
+
+
+
+
+
+# [-------UPTIME LOGS-------]
+"""while True:
+  now = datetime.now()
+  today = date.today()
+  current_date = today.strftime("%d/%m/%Y")
+  current_time = now.strftime("%H:%M:%S")
+  with open('logs.json', 'r') as f:
+    prefixes = json.load(f)
+    prefixes[str(current_date + "-" + current_time)] = 'up'
+  with open('logs.json', 'w') as f:
+    json.dump(prefixes, f, indent=4)
+  time.sleep(60)
+"""
+
+
+
+
+
+
+# tempban
+@commands.command(aliases=["tmb", "temp", "tmp"])
+  @commands.has_permissions(ban_members=True)
+  async def temp_ban(self, ctx, member:discord.Member, duration:int, *, reason="no reason"):
+    await ctx.guild.ban(member)
+    await ctx.send(f"**{member}** has been temp banned for {duration} seconds, reason: {reason}")
+    await ctx.message.delete(delay=10)
+    await asyncio.sleep(duration)
+    await ctx.guild.unban(member)
+
+
+
+
+
+
+
+
+
+
+
+
+
+@client.event
+async def on_reaction_add(reaction, user):
+    # Steals your reaction by removing the original and adding it's own
+    if not user.bot and reaction.message.content == "try me":
+        await reaction.remove(user)
+        await reaction.message.add_reaction(reaction.emoji)
+
+
+
+
+
+
+
+
+#you have to edit some parts of this code
+import discord
+
+#this is just another way to say @client.event 
+class MyClient(discord.Client):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.target_message_id = (Your message id)
+
+    async def on_ready(self):
+        print('Running...')
+    #Reaction added
+    async def on_raw_reaction_add(self, payload):
+
+
+        if payload.message_id != self.target_message_id:
+            return
+
+        guild = client.get_guild(payload.guild_id)
+
+
+        if payload.emoji.name == '(Your emoji)':
+            role = discord.utils.get(guild.roles, name='<Your role>')
+            await payload.member.add_roles(role)
+
+    #Reaction removed
+    async def on_raw_reaction_remove(self, payload):
+
+
+        if payload.message_id != self.target_message_id:
+            return
+
+        guild = client.get_guild(payload.guild_id)
+        member = guild.get_member(payload.user_id)
+
+
+        if payload.emoji.name == '(Your emoji)':
+            role = discord.utils.get(guild.roles, name='<Your role>')
+            await member.remove_roles(role)
+
+
+intents = discord.Intents.default()
+intents.members = True
+
+client = MyClient(intents=intents)
+client.run('<Your token>')
+#give this a thumbs up if it helped you
+
+
+
+
+
+
+
+
+
+
+#@commands.command()
+  #async def help(ctx):
+    #button1 = Button(label="Commands link", url = "https://docs.google.com/document/d/13pOQINkxeKjstf_fr4stBy3KWS52-UekLbFh6oR_whc/edit")
+    
+    #view = View()
+    #view.add_item(button1
+
+
+
+expression = expression.replace(" ", "")
+    if (len(expression) < 10):
+      try:
+        await ctx.send(f">>> 🧮 **Input:** `{expression}` \n🔢 **Result:** `{eval(expression)}`")
+      except ZeroDivisionError:
+        await ctx.send(f">>> ❌ Can't divide by zero")
+    else:
+      await ctx.send(">>> ❌ **Sorry, your entered calculation is too long.** We apologise for any inconvenience.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@commands.command(aliases=['bj'])
+  async def blackjack(self, ctx, player2 : discord.Member):
+    player1 = ctx.author
+    player1sum = random.randint(4, 21)
+    player2sum = random.randint(4, 21)
+
+    if player1sum == 21 and player2sum == 21: # making sure both don't win immediately
+      minus = random.choose("player1", "player2")
+      if minus == "player1":
+        player1sum = 20
+      else:
+        player2sum = 20
+
+    await player1.send(f"Your sum is {player1sum}. Hit or stand? Send `?hit` or `?stand` in the original channel!")
+    await player2.send(f"Your sum is {player2sum}. Hit or stand? Send `?hit` or `?stand` in the original channel!")
+    await ctx.channel.send("Your current sums have been DM'd to you!") # DMs the users their initial sums
+
+    with open('blackjack.json', 'r') as f:
+      games = json.load(f)
+    with open('blackjack_users.json', 'r') as f:
+      users = json.load(f)
+
+    game_total = len(games)
+    new_game_id = str(len(games))
+
+    games[new_game_id] = {}
+    games[new_game_id]["guild_id"] = ctx.guild.id
+    games[new_game_id]["player1"] = player1.id
+    games[new_game_id]["player2"] = player2.id
+    games[new_game_id]["player1_sum"] = player1sum
+    games[new_game_id]["player2_sum"] = player2sum
+    games[new_game_id]["player1_cards"] = 2
+    games[new_game_id]["player2_cards"] = 2 # stores data
+
+    users[player1.id] = {}
+    users[player2.id] = {}
+    users[player1.id]["status"] = "hitting"
+    users[player2.id]["status"] = "hitting"
+    users[player1.id]["game"] = new_game_id
+    users[player2.id]["game"] = new_game_id
+
+    with open("blackjack.json","w") as f:
+      json.dump(games,f) # writes all data
+    with open("blackjack_users.json","w") as f:
+      json.dump(users,f) # writes all data
+
+  @commands.Cog.listener()
+  async def on_message(self, message):
+    print("Breakpoint 7")
+    if message.content == "hit":
+      print("Breakpoint 1")
+      with open('blackjack_users.json', 'r') as f:
+        users = json.load(f)
+      with open('blackjack.json', 'r') as f:
+        games = json.load(f)
+      print(users)
+      print(message.author.id)
+      if str(message.author.id) in users:
+        print("Breakpoint 2")
+        if users[str(message.author.id)]:
+          print("Breakpoint 3")
+          id = users[str(message.author.id)]["game"]
+          games[users[str(message.author.id)]["game"]]["player1_sum"] += random.randint(2, 11)
+          if games[users[str(message.author.id)]["game"]]["player1_sum"] > 21:
+            await message.channel.send(f"You **LOST!** You hit and your sum went over `21`.")
+            users[message.author.id]["game"] = "None"
+            guild = games[id]["guild_id"]
+            if message.author.id == games[id]["player1"]:
+              other_player = guild.fetch_member(games[id]["player2"])
+            else:
+              other_player = guild.fetch_member(games[id]["player1"])
+              await other_player.send("You **WIN**! Your opponent has gone over `21`.")
+            games.pop(id)
+          else:
+            await message.channel.send(f"You **HIT**! Your new sum is `{games[id]['player1_sum']}`. Hit or stand?")
+
+      
+      with open('blackjack.json', 'w') as f:
+          json.dump(games, f)
+      with open('blackjack_users.json', 'w') as f:
+          json.dump(users, f)
+          
+    elif message.content == "stand":
+      print("Breakpoint 4")
+      with open('blackjack_users.json', 'r') as f:
+        users = json.load(f)
+      with open('blackjack.json', 'r') as f:
+        games = json.load(f)
+      print(users)
+      print(message.author.id)
+      if str(message.author.id) in users:
+        print("Breakpoint 5")
+        if users[str(message.author.id)]:
+          print("Breakpoint 6")
+          users[str(message.author.id)]["status"] = "standing"
+
+      player2 = await self.client.fetch_user(int(games[users[message.author.id][game]][player2.id]))
+
+      game_id = int(users[str(message.author.id)])
+      player2_id = int(games[game_id]["player2"])
+      if users[player2][status] == "standing":
+        return
+      with open('blackjack.json', 'w') as f:
+          json.dump(games, f)
+      with open('blackjack_users.json', 'w') as f:
+          json.dump(users, f)
+
+
+
+
+client.event
+async def on_message(message): 
+  if message.guild.id == 963460256627851294:
+    print("0")
+    if message.content.startswith("h"):
+      print("1")
+      if message.content[1] == "m":
+        with open('random-stuff.json', 'r') as f:
+          data= json.load(f)
+        data["hmms"] = 1
+        with open('random-stuff.json', 'w') as f:
+          json.dump(data, f)
+        await message.channel.send("hmm.") 
+  await client.process_commands(message) # ohh its a coroutine

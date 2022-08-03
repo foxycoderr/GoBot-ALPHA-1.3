@@ -1,0 +1,18 @@
+{
+  "files": {
+    "Cogs/calculator.py": [
+      {
+        "id": "864d60e2-b5fa-4794-ab27-5f54ae6de4bc",
+        "line": 14,
+        "version": 851,
+        "index": 279
+      },
+      {
+        "id": "211c0f43-1fbc-4a8e-b030-3319b7ef4daf",
+        "line": 37,
+        "version": 851,
+        "index": 781
+      }
+    ]
+  }
+}
