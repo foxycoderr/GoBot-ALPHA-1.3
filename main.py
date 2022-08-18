@@ -73,12 +73,30 @@ client = commands.Bot(command_prefix=get_prefix,
 #[----------EVENTS----------]
 @client.event
 async def on_ready():
+  os.system("clear")
   with open('servers.json', 'r') as f:
     data = json.load(f)
+  data = {}
   for guild in client.guilds:
-    data[guild.name] = guild.member_count
+    guild_obj = await client.fetch_guild(guild.id)
+    #guild = await client.fetch_guild()
+
+    def remove_unicode(text):
+      new_text = text
+      for letter in text:  
+        if ord(letter) < 20 or ord(letter) > 126:
+          new_text = new_text.replace(letter, '*')
+      return str(new_text)
+      
+    name = remove_unicode(guild_obj.name)
+
+    if name == "" or name == None:
+      name = "*only unicode symbols*"
+    data[name] = [guild.member_count, remove_unicode(str(guild.owner.name))]
+  
   with open('servers.json', 'w') as f:
     json.dump(data, f, indent=2)
+    
   os.system("clear")
   print(colored("Welcome to the GoBot Startup Menu", attrs=["bold"]))
   print("Loading bot...")

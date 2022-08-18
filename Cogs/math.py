@@ -43,7 +43,7 @@ class Math(commands.Cog):
     if not re.search("[a-zA-Z]", expression):
       if "^" in expression or "**" in expression:
         expression = expression.replace("^", "**")
-        limit = 10
+        limit = 5
       else:
         limit = 50
 
